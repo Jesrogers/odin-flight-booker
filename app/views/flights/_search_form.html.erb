@@ -1,0 +1,24 @@
+<% airports_options = Airport.all.map { |airport| [airport.code, airport.id] }%>
+<% depature_date_options = Flight.all.distinct.order('start').map { |flight| [flight.start.strftime('%m/%d/%Y'), flight.id ]} %>
+
+
+<%= form_with url: '/flights', local: true, method: 'GET' do |form| %>
+    <div>
+        <%= form.label :from_airport %>
+        <%= select_tag(:from_airport, options_for_select(airports_options)) %>
+    </div>
+    <div>
+        <%= form.label :to_airport %>
+        <%= select_tag(:to_airport, options_for_select(airports_options)) %>
+    </div>
+    <div>
+        <%= form.label :passengers %>
+        <%= select_tag(:passengers, options_for_select([1,2,3,4])) %>
+    </div>
+    <div>
+        <%= form.label :depature_date %>
+        <%= form.select :depature_date, options_for_select(depature_date_options) %>
+    </div>
+
+    <%= form.submit "Show Flights" %>
+<% end %>
