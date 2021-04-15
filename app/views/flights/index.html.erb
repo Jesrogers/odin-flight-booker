@@ -1,21 +1,11 @@
 <h1>Flights</h1>
 
-<%= render 'search_form' %>
+<%= render 'search_form', airports_options: @airports_options, departure_date_options: @departure_date_options %>
 
-<% if @available_flights.present? %>
-    <hr>
-    <h2>Available Flights</h2>
-    
-    <% if @available_flights.exists? %>
-        <% @available_flights.each do |flight| %>
-            <div>
-                <p><%= flight.from_airport.name %></p>
-                <p><%= flight.to_airport.name %></p>
-                <p><%= flight.start.strftime('%m/%d/%Y %I:%M%P') %></p>
-                <br>
-            </div>
-        <% end %>
+<% unless @available_flights.nil? %>
+    <% if @available_flights.any? %>
+        <%= render 'search_form_results', available_flights: @available_flights %>
     <% else %>
-        <h2>No flights found</h2>
+        <h2>No flights found<h2>
     <% end %>
 <% end %>

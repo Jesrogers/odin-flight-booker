@@ -1,8 +1,12 @@
 class FlightsController < ApplicationController
+    require './app/services/flight_finder'
+
     def index
-        if (params.has_key?(:from_airport) && params.has_key?(:to_airport) && params.has_key?(:passengers) && params.has_key?(:departure_date))
-            @available_flights = Flight.where(from_airport_id: params[:from_airport], to_airport_id: params[:to_airport], start: params[:departure_date]).distinct
-            puts "Available Flights: #{@available_flights.first.id}"
+        @airports_options = Airport.all.map { |airport| [airport.code, airport.id] }
+        @departure_date_options = Flight.all.distinct.order('start').map { |flight| [flight.start.strftime('%m/%d/%y'), flight.start ]}
+
+        if (params.has_key?(:from_airport_id) && params.has_key?(:to_airport_id) && params.has_key?(:passenger_count) && params.has_key?(:start))
+            @available_flights = FlightFinder.new(params).find_flights
         end
     end
 end

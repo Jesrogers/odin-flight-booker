@@ -1,0 +1,17 @@
+<h2>Available Flights</h2>
+
+<%= form_with url: 'bookings/new', local: true, method: 'GET' do |form| %>
+    <% available_flights.each do |flight| %>
+    <div>
+        <%= form.radio_button :flight, flight.id%>
+        <div>
+            <p>From: <%= flight.from_airport.name %></p>
+            <p>To: <%= flight.to_airport.name %></p>
+            <p>Time: <%= flight.start.strftime('%m/%d/%Y %I:%M%P') %></p>
+            <p>Duration (minutes): <%= flight.duration %></p>
+            <br>
+        </div>
+    </div>
+    <% end %>
+    <%= form.submit "Book Flight" %>
+<% end %>
