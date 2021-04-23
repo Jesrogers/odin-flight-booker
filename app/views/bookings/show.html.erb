@@ -1,0 +1,6 @@
+<h1>Booking #<%= @booking.id %></h1>
+<p>Passenger: <%= @booking.passengers.first.name %></p>
+<p>From: <%= @booking.flight.from_airport.name %></p>
+<p>To: <%= @booking.flight.to_airport.name %></p>
+
+<%= link_to "Book a new flight", root_path %>

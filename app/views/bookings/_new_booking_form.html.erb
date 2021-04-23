@@ -1,0 +1,28 @@
+<h2>Passenger Information</h2>
+
+<div>
+    <h4>Your flight:</h4>
+    <p>From: <%= flight.from_airport.name %></p>
+    <p>To: <%= flight.to_airport.name %></p>
+    <p>Date: <%= flight.start.strftime('%m/%d/%Y %I:%M%P') %></p>
+    <p>Duration (minutes): <%= flight.duration %></p>
+</div>
+
+
+<%= form_with model: booking, local: true, method: 'POST' do |form| %>
+    <%= form.fields_for :passengers do |passenger_data| %>
+            <div>
+                <div>
+                    <p>Passenger</p>
+                    <%= passenger_data.label :name %>
+                    <%= passenger_data.text_field :name %>
+                    <%= passenger_data.label :email %>
+                    <%= passenger_data.text_field :email %>
+                </div>
+            <br>
+    <% end %>
+
+    <%= form.hidden_field :flight_id, value: params[:flight] %>
+
+    <%= form.submit "Book Flight" %>
+<% end %>
